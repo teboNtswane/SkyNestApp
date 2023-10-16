@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_dark_leaves"
+    tools:context=".SignUp">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/abeezee"
+                android:text="@string/app_name"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_heading2"
+                android:layout_width="329dp"
+                android:layout_height="120dp"
+                android:layout_below="@id/tv_title"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="35dp"
+                android:fontFamily="@font/abeezee"
+                android:text="Create New Account "
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/lay_login"
+                android:layout_below="@id/tv_heading2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="25dp"
+                android:outlineProvider="paddedBounds">
+
+                <EditText
+                    android:id="@+id/tv_firstname"
+                    android:layout_width="350dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="35dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:inputType="textPersonName"
+                    android:autofillHints="name"
+                    android:background="@drawable/back_boarder"
+                    android:drawableStart="@drawable/baseline_person_24"
+                    android:padding="8dp"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/black"
+                    android:ems="10"
+                    android:hint="@string/name"
+                    android:minHeight="48dp" />
+
+                <EditText
+                    android:id="@+id/tv_lastname"
+                    android:layout_width="350dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginRight="35dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:inputType="textPersonName"
+                    android:autofillHints="name"
+                    android:background="@drawable/back_boarder"
+                    android:drawableStart="@drawable/baseline_person_24"
+                    android:padding="8dp"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/black"
+                    android:ems="10"
+                    android:hint="@string/lastname"
+                    android:minHeight="48dp" />
+
+                <EditText
+                    android:id="@+id/tv_email"
+                    android:layout_width="350dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginRight="35dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:inputType="textEmailAddress"
+                    android:background="@drawable/back_boarder"
+                    android:drawableStart="@drawable/baseline_alternate_email_24"
+                    android:padding="8dp"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/black"
+                    android:ems="10"
+                    android:hint="@string/email"
+                    android:autofillHints="emailAddress"
+                    android:minHeight="48dp" />
+                <EditText
+                    android:id="@+id/tv_password"
+                    android:layout_width="350dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginRight="35dp"
+                    android:inputType="textPassword"
+                    android:background="@drawable/back_boarder"
+                    android:drawableStart="@drawable/baseline_lock_24"
+                    android:padding="8dp"
+                    android:drawablePadding="8dp"
+                    android:textColor="@color/black"
+                    android:ems="10"
+                    android:hint="@string/password"
+                    android:autofillHints="password"
+                    android:minHeight="48dp"
+                    app:passwordToggleEnabled="true"/>
+
+                <Button
+                    android:id="@+id/btn_SignUp"
+                    android:layout_width="250dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginStart="80dp"
+                    android:text="@string/signup"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/abeezee"
+                    android:backgroundTint="#7EAE25"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    app:cornerRadius = "30dp"/>
+
+                <LinearLayout
+                    android:id="@+id/lay_buttons"
+                    android:layout_below="@id/lay_login"
+                    android:layout_marginTop="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="220dp"
+                        android:layout_height="40dp"
+                        android:fontFamily="@font/abeezee"
+                        android:text="Already have an account?"
+                        android:textAlignment="center"
+                        android:layout_marginStart="45dp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btn_gologin"
+                        android:layout_marginTop="1dp"
+                        android:fontFamily="@font/abeezee"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:text="@string/login"
+                        style="?attr/borderlessButtonStyle"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Sky Nest</string>
+    <string name="achieve">Achievement</string>
+    <string name="guide">Field Guide</string>
+    <string name="photo">Take Photo</string>
+    <string name="hotspots">Bird Hotspots</string>
+    <string name="gallery">Gallery</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="signout">Sign Out</string>
+</resources>
