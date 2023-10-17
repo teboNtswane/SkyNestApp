@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#374A12"
-    tools:context=".HomeDashboard">
-
+    android:background="#E8FBC3"
+    tools:context=".Profile">
 
     <ScrollView
         android:id="@+id/sv_profile"
@@ -18,27 +17,83 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/lay_home"
+                android:id="@+id/lay_profile"
                 android:layout_width="match_parent"
-                android:layout_height="370dp"
+                android:layout_height="290dp"
+                android:background="#748A24"
                 android:orientation="vertical"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="#E8FBC3"
-                android:background="@drawable/back_boarder"
                 android:outlineProvider="paddedBounds">
 
                 <TextView
                     android:id="@+id/tv_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/abeezee"
+                    android:minHeight="48dp"
                     android:text="@string/app_name"
                     android:textAlignment="center"
-                    android:minHeight="48dp"
-                    android:textColor="#305C15"
+                    android:textColor="#FFFFFF"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
+
+                <ImageView
+                    android:id="@+id/iv_bird"
+                    android:layout_width="166dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="100dp"
+                    android:contentDescription="@string/achieve"
+                    app:srcCompat="@drawable/img_bird1" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="28sp" />
+
+                <TextView
+                    android:id="@+id/tv_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="email@gmail.com"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/btn_SignOut"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="135dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="#030500"
+                    android:fontFamily="@font/abeezee"
+                    android:text="@string/signout"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="30dp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lay_achievement"
+                android:layout_width="match_parent"
+                android:layout_below="@id/lay_profile"
+                android:layout_height="300dp"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#B9BFAC"
+                android:background="@drawable/back_boarder"
+                android:outlineProvider="paddedBounds">
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -47,13 +102,12 @@
                     android:text="@string/achieve"
                     android:textAlignment="center"
                     android:textColor="#305C15"
-                    android:textSize="35sp"
+                    android:textSize="30sp"
                     android:textStyle="bold"/>
 
                 <ImageView
-                    android:id="@+id/iv_bird"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="190dp"
                     android:layout_marginTop="5dp"
                     android:contentDescription="@string/achieve"
                     app:srcCompat="@drawable/img_bird1" />
@@ -71,98 +125,40 @@
                     android:textStyle="bold"/>
 
             </LinearLayout>
-
             <LinearLayout
-                android:id="@+id/lay_guide"
+                android:id="@+id/lay_favourite"
                 android:layout_width="170dp"
                 android:layout_height="125dp"
-                android:layout_below="@id/lay_home"
+                android:layout_below="@id/lay_achievement"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/button_border"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="5dp">
 
                 <ImageView
-                    android:id="@+id/iv_guide"
+                    android:id="@+id/iv_heart"
                     android:layout_width="94dp"
                     android:layout_height="70dp"
-                    android:contentDescription="@string/guide"
-                    android:src="@drawable/baseline_menu_book_24" />
+                    android:contentDescription="@string/favourite"
+                    android:src="@drawable/baseline_favorite_24" />
 
                 <TextView
                     android:layout_width="158dp"
                     android:layout_height="35dp"
                     android:gravity="center"
-                    android:text="@string/guide"
+                    android:text="@string/favourite"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/lay_photo"
-                android:layout_width="170dp"
-                android:layout_height="125dp"
-                android:layout_below="@id/lay_guide"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/button_border"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/iv_photo"
-                    android:layout_width="94dp"
-                    android:layout_height="70dp"
-                    android:contentDescription="@string/photo"
-                    android:src="@drawable/baseline_photo_camera_24" />
-
-                <TextView
-                    android:layout_width="158dp"
-                    android:layout_height="35dp"
-                    android:gravity="center"
-                    android:text="@string/photo"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/lay_hotspot"
-                android:layout_width="170dp"
-                android:layout_height="125dp"
-                android:layout_below="@id/lay_home"
-                android:layout_marginStart="222dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/button_border"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/iv_hotsopt"
-                    android:layout_width="94dp"
-                    android:layout_height="70dp"
-                    android:contentDescription="@string/hotspots"
-                    android:src="@drawable/baseline_location_on_24" />
-
-                <TextView
-                    android:layout_width="158dp"
-                    android:layout_height="35dp"
-                    android:gravity="center"
-                    android:text="@string/hotspots"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-            </LinearLayout>
-
             <LinearLayout
                 android:id="@+id/lay_gallery"
                 android:layout_width="170dp"
                 android:layout_height="125dp"
-                android:layout_below="@id/lay_hotspot"
+                android:layout_below="@id/lay_achievement"
                 android:layout_marginStart="222dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/button_border"
                 android:gravity="center"
                 android:orientation="vertical"
@@ -184,7 +180,6 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-
         </RelativeLayout>
 
     </ScrollView>
@@ -202,6 +197,5 @@
             app:menu="@menu/bottom_navigation_menu" />
 
     </LinearLayout>
-
 
 </RelativeLayout>
