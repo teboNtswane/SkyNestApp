@@ -15,4 +15,9 @@
     <string name="signout">Sign Out</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
+    <string name="level1">Newbie</string>
+    <string name="level2">Beginner</string>
+    <string name="level3">Intermediate</string>
+    <string name="level4">Pro</string>
+    <string name="level5">Expert</string>
 </resources>

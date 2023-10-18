@@ -64,7 +64,7 @@
                     android:layout_height="60dp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/abeezee"
-                    android:text="30 of 30 Observations"
+                    android:text="0 of 30 Observations"
                     android:textAlignment="center"
                     android:textColor="#305C15"
                     android:textSize="25sp"

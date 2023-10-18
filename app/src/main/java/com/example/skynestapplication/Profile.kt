@@ -8,10 +8,13 @@ import android.widget.TextView
 import com.example.skynestapplication.databinding.ActivityProfileBinding
 import com.example.skynestapplication.databinding.ActivitySignUpBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class Profile : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
+
+    private lateinit var firebaseAuth : FirebaseAuth
 
     private lateinit var name: EditText
 
@@ -25,20 +28,6 @@ class Profile : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navigate()
-
-        var nameDisplay = ""
-        var emailDisplay = ""
-
-        name = findViewById(R.id.tv_firstname)
-        surname = findViewById(R.id.tv_lastname)
-        username = findViewById(R.id.tv_name)
-        email = findViewById(R.id.tv_email)
-
-        nameDisplay = "$name $surname"
-        emailDisplay = "$email"
-
-        username.text = nameDisplay
-        email.text = emailDisplay
 
         //Directs user to Login screen
         binding.btnSignOut.setOnClickListener {
@@ -58,20 +47,20 @@ class Profile : AppCompatActivity() {
                 R.id.i_home -> {
                     val intent = Intent(this, HomeDashboard::class.java)
                     startActivity(intent)
-                    true
+
                 }
                 R.id.i_profile -> {
                     val intent = Intent(this, Profile::class.java)
                     startActivity(intent)
-                    true
+
                 }
                 R.id.i_favourite -> {
                     val intent = Intent(this, HomeDashboard::class.java)
                     startActivity(intent)
-                    true
+
 
                 }
-                else -> false
+                else -> {}
             }
             true
         }
