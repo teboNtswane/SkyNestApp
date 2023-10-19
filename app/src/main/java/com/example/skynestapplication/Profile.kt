@@ -3,30 +3,38 @@ package com.example.skynestapplication
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import com.example.skynestapplication.databinding.ActivityHomeDashboardBinding
+import android.widget.EditText
+import android.widget.TextView
 import com.example.skynestapplication.databinding.ActivityProfileBinding
+import com.example.skynestapplication.databinding.ActivitySignUpBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
-class HomeDashboard : AppCompatActivity() {
+class Profile : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHomeDashboardBinding
+    private lateinit var binding: ActivityProfileBinding
+
+    private lateinit var firebaseAuth : FirebaseAuth
+
+    private lateinit var name: EditText
+
+    private lateinit var surname: EditText
+
+    private lateinit var username: TextView
+    private lateinit var email: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityHomeDashboardBinding.inflate(layoutInflater)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navigate()
 
-
-        //Will take user to the Map screen after clicking
-        binding.ivHotsopt.setOnClickListener {
-            val intent = Intent(this, Hotspots::class.java)
+        //Directs user to Login screen
+        binding.btnSignOut.setOnClickListener {
+            val intent = Intent(this, Login::class.java)
             startActivity(intent)
         }
-
-
     }
-
 
     //--------------------------------------------------------------------------------------------------
     //Reference: Mafia Codes
@@ -58,5 +66,4 @@ class HomeDashboard : AppCompatActivity() {
         }
 
     }
-
 }

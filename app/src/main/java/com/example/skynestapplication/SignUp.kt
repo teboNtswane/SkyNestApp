@@ -30,7 +30,7 @@ class SignUp : AppCompatActivity() {
         //Authenticates user email and password from firebase
         firebaseAuth = FirebaseAuth.getInstance()
 
-        //Directs user to Signup screen
+        //Directs user to Login screen
         binding.btnGologin.setOnClickListener {
             val intent = Intent(this, Login::class.java)
             startActivity(intent)
@@ -56,6 +56,7 @@ class SignUp : AppCompatActivity() {
             }else{
                 Toast.makeText(this, "Empty Fields are Not Allowed!", Toast.LENGTH_SHORT).show()
             }
+
 
         }
 
