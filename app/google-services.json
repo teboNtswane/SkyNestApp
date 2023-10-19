@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "776557692024",
+    "project_id": "skynest-89270",
+    "storage_bucket": "skynest-89270.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776557692024:android:67d81504da573180b4198d",
+        "android_client_info": {
+          "package_name": "com.example.skynest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmKHB5MazfNVzNHMYkcg9M3FxMzbVydfA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776557692024:android:95529e66583e4c18b4198d",
+        "android_client_info": {
+          "package_name": "com.example.skynestapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmKHB5MazfNVzNHMYkcg9M3FxMzbVydfA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
