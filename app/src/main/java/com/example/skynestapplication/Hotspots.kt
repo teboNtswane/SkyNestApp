@@ -3,10 +3,12 @@ package com.example.skynestapplication
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.media.MediaPlayer.OnCompletionListener
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -25,9 +27,20 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.gson.Gson
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
+import java.io.BufferedReader
 import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.jvm.Throws
 
 class Hotspots : AppCompatActivity(), OnMapReadyCallback {
 
@@ -111,7 +124,6 @@ class Hotspots : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-
     private fun searchAreaMi() {
         val searchLocation = findViewById<View>(R.id.et_location) as EditText
         val theLocation = searchLocation.text.toString()
@@ -168,6 +180,28 @@ class Hotspots : AppCompatActivity(), OnMapReadyCallback {
                     Toast.makeText(this@Hotspots, "Distance = $str miles", Toast.LENGTH_SHORT).show()
 
                     foundAddress.setText("Distance = $str miles")
+
+                   // val url: String = getDirectionsUrl(origin!!.position, destination!!.position)!!
+                    //val downloadTask: DownloadTask = DownloadTask()
+                    //downloadTask.execute(url)
+
+                    //Get the URL to the Google Directions API
+                    //origin?.let { node -> node.position }
+                    //val url: String = getDirectionsUrl(origin.let { node -> node!!.position }, destination.let { node -> node!!.position })!!
+                    //val url: String = getDirectionsUrl(origin!!.position, destination!!.position)!!
+                   // val downloadTask: DownloadTask = DownloadTask()
+                   // downloadTask.execute(url)
+
+                    Log.d("GoogleMap", "before URL")
+                    val url = getDirectionURL(origin!!.position,destination!!.position)
+                    //val url = getDirectionsUrl(origin, destination)!!
+                    Log.d("GoogleMap", "URL : $url")
+                    GetDirection(url).execute()
+                   // val url: String = getDirectionsUrl(origin.let { node -> node!!.position }, destination.let { node -> node!!.position })!!
+                    //GetDirection(url).execute()
+
+                    //Start downloading json data from Google Directions API
+
 
                 }
             }
@@ -233,11 +267,183 @@ class Hotspots : AppCompatActivity(), OnMapReadyCallback {
 
                     foundAddress!!.setText("Distance = $str KM")
 
+                    /*val url: String = getDirectionsUrl(origin!!.position, destination!!.position)!!
+                    val downloadTask: DownloadTask = DownloadTask()
+                    downloadTask.execute(url)*/
+
                 }
             }
         }
     }
 
+    inner class DownloadTask :AsyncTask<String?, Void?, String>() {
+        override fun onPostExecute(result: String) {
+            super.onPostExecute(result)
+            val parserTask = ParserTask()
+            parserTask.execute(result)
+        }
+
+        override fun doInBackground(vararg url: String?): String {
+            var data = ""
+            try {
+                data = downloadUrl(url[0].toString()).toString()
+            } catch (e: java.lang.Exception) {
+                Log.d("Background Task", e.toString())
+            }
+            return data
+        }
+    }
+//----------------------------------------------------------------------------------------------------
+    /**
+     * A class to parse the JSON format
+     */
+    inner class ParserTask: AsyncTask<String?, Int?, List<List<HashMap<String, String>>>?>() {
+        //Parsing the data in non-ui thread
+        override fun doInBackground(vararg jsonData: String?): List<List<HashMap<String, String>>>? {
+            val jObject: JSONObject
+            var  routes: List<List<HashMap<String, String>>>? = null
+            try {
+                jObject = JSONObject(jsonData[0])
+                val parser = DataParser()
+                routes = parser.parse(jObject)
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+            return routes
+        }
+
+        override fun onPostExecute(result: List<List<HashMap<String, String>>>?) {
+            val points = ArrayList<LatLng?>()
+            val lineOptions = PolylineOptions()
+            for (i in result!!.indices) {
+                val path = result[i]
+                for (j in path.indices) {
+                    val point = path[j]
+                    val lat = point["lat"]!!.toDouble()
+                    val lng = point["lng"]!!.toDouble()
+                    val position = LatLng(lat, lng)
+                    points.add(position)
+                }
+                lineOptions.addAll(points)
+                lineOptions.width(8f)
+                lineOptions.color(Color.GREEN)
+                lineOptions.geodesic(true)
+            }
+
+            //Drawing polyline in the Google Map for the i-th route
+            if (points.size != 0)
+                mMap!!.addPolyline(lineOptions)
+
+        }
+    }
+
+//--------------------------------------------------------------------------------------------------
+    /**
+     * A method to download json data from url
+     */
+    @Throws(IOException::class)
+    private  fun downloadUrl(strUrl: String): String? {
+        var  data = ""
+        var iStream: InputStream? = null
+        var urlConnection: HttpURLConnection? = null
+        try {
+            val url = URL(strUrl)
+            urlConnection = url.openConnection() as HttpURLConnection
+            urlConnection.connect()
+            iStream = urlConnection!!.inputStream
+            val br = BufferedReader(InputStreamReader(iStream))
+            val sb = StringBuffer()
+            var line: String? = ""
+            while (br.readLine().also { line = it } != null) {
+                sb.append(line)
+            }
+            data = sb.toString()
+            br.close()
+        } catch (e: java.lang.Exception) {
+            Log.d("Exception", e.toString())
+        } finally {
+            iStream!!.close()
+            urlConnection!!.disconnect()
+        }
+        return  data
+    }
+//--------------------------------------------------------------------------------------------------------------------
+    fun getDirectionURL(origin:LatLng,dest:LatLng) : String{
+        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${dest.latitude},${dest.longitude}&sensor=false&mode=driving&key=AIzaSyAkZWraPfa9He5onUjmZlmXW_yzaeIfA20"
+    }
+
+    //--------------------------------------------------------------------------------------------------------------------
+    private fun getDirectionsUrl(origin: LatLng, dest: LatLng): String? {
+        //Origin of the route
+        val str_origin = "origin=" + origin.latitude + "," + origin.longitude
+
+        //Origin of the route
+        val str_dest = "destination=" + dest.latitude + "," + dest.longitude
+
+        //Setting the transportation mode
+        val  mode = "mode=driving"
+
+        //Building the parameters to the web service
+        val parameters = "$str_origin&$str_dest&$mode"
+
+        //The output format
+        val output = "json"
+
+        //Building the url to the web service
+        return  "https://maps.googleapis.com/maps/api/directions/$output?$parameters&key=AIzaSyAkZWraPfa9He5onUjmZlmXW_yzaeIfA20"
+
+    }
+    //--------------------------------------------------------------------------------------------------------------------
+    inner class GetDirection(val url : String) : AsyncTask<Void, Void, List<List<LatLng>>>(){
+        override fun doInBackground(vararg params: Void?): List<List<LatLng>> {
+            val client = OkHttpClient()
+            val request = Request.Builder().url(url).build()
+            val response = client.newCall(request).execute()
+            val data = response.body()!!.string()
+            Log.d("GoogleMap", "data : $data")
+            val result = ArrayList<List<LatLng>>()
+
+            try{
+                val respObj = Gson().fromJson(data, GoogleMapDTO::class.java)
+
+                val path = ArrayList<LatLng>()
+
+                for (i in 0.. (respObj.routes[0].legs[0].steps.size-1)) {
+                   // val startLatLng = LatLng(respObj.routes[0].legs[0].steps[i].start_location.lat.toDouble(),
+                   //     respObj.routes[0].legs[0].steps[i].start_location.lng.toDouble())
+                   // path.add(startLatLng)
+
+                    //val endLatLng = LatLng(respObj.routes[0].legs[0].steps[i].end_location.lat.toDouble(),
+                     //   respObj.routes[0].legs[0].steps[i].end_location.lng.toDouble())
+                    //path.add(endLatLng)
+                    path.addAll(decodePolyline(respObj.routes[0].legs[0].steps[i].polyline.points))
+                }
+                result.add(path)
+
+            }catch (e:Exception){
+                e.printStackTrace()
+
+            }
+            return result
+
+
+        }
+
+        override fun onPostExecute(result: List<List<LatLng>>?) {
+            val lineoption = PolylineOptions()
+            for (i in result!!.indices) {
+                lineoption.addAll(result[i])
+                lineoption.width(10f)
+                lineoption.color(Color.GREEN)
+                lineoption.geodesic(true)
+            }
+            mMap!!.addPolyline(lineoption)
+        }
+
+    }
+
+
+    //--------------------------------------------------------------------------------------------------------------------
     public override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
@@ -252,7 +458,7 @@ class Hotspots : AppCompatActivity(), OnMapReadyCallback {
         mapView.onSaveInstanceState(mapViewBundle)
     }
 
-
+    //--------------------------------------------------------------------------------------------------------------------
     private fun askPermissionLocation() {
 
         if (ActivityCompat.checkSelfPermission(
@@ -268,6 +474,7 @@ class Hotspots : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    //--------------------------------------------------------------------------------------------------------------------
     @SuppressLint("MissingPermission")
     private fun getCurrentLocation() {
 
@@ -302,7 +509,7 @@ class Hotspots : AppCompatActivity(), OnMapReadyCallback {
         }
 
     }
-
+    //--------------------------------------------------------------------------------------------------------------------
     private fun placeMarkerOnMap(currentLatLong: LatLng) {
         val markerOptions = MarkerOptions().position(currentLatLong)
         markerOptions.title("$currentLatLong")
@@ -310,8 +517,47 @@ class Hotspots : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-
+    //--------------------------------------------------------------------------------------------------------------------
     private fun moveCamera(latLng: LatLng, zoom: Float) {
         mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
     }
+    //--------------------------------------------------------------------------------------------------------------------
+    public fun decodePolyline(encoded: String): List<LatLng> {
+
+        val poly = ArrayList<LatLng>()
+        var index = 0
+        val len = encoded.length
+        var lat = 0
+        var lng = 0
+
+        while (index < len) {
+            var b: Int
+            var shift = 0
+            var result = 0
+            do {
+                b = encoded[index++].toInt() - 63
+                result = result or (b and 0x1f shl shift)
+                shift += 5
+            } while (b >= 0x20)
+            val dlat = if (result and 1 != 0) (result shr 1).inv() else result shr 1
+            lat += dlat
+
+            shift = 0
+            result = 0
+            do {
+                b = encoded[index++].toInt() - 63
+                result = result or (b and 0x1f shl shift)
+                shift += 5
+            } while (b >= 0x20)
+            val dlng = if (result and 1 != 0) (result shr 1).inv() else result shr 1
+            lng += dlng
+
+            val latLng = LatLng((lat.toDouble() / 1E5),(lng.toDouble() / 1E5))
+            poly.add(latLng)
+        }
+
+        return poly
+    }
+
 }
+//--------------------------------------------------------------------------------------------------
