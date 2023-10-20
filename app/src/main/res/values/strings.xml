@@ -5,7 +5,6 @@
     <string name="photo">Take Photo</string>
     <string name="hotspots">Bird Hotspots</string>
     <string name="gallery">Gallery</string>
-    <string name="favourite">Favourites</string>
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
     <string name="email">Email</string>
@@ -13,11 +12,6 @@
     <string name="name">First Name</string>
     <string name="lastname">Last Name</string>
     <string name="signout">Sign Out</string>
-    <string name="home">Home</string>
-    <string name="profile">Profile</string>
-    <string name="level1">Newbie</string>
-    <string name="level2">Beginner</string>
-    <string name="level3">Intermediate</string>
-    <string name="level4">Pro</string>
-    <string name="level5">Expert</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
